@@ -24,10 +24,30 @@ namespace WebApp_UnderTheHood
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAuthentication().AddCookie("MyCookieAuth", options =>
+            services.AddAuthentication("MyCookieAuth").AddCookie("MyCookieAuth", options =>
             {
                 options.Cookie.Name = "MyCookieAuth";
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
             });
+
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly",
+                    policy => policy.RequireClaim("Admin"));
+
+
+                options.AddPolicy("MustBelongToHRDepartment",
+                    policy => policy.RequireClaim("Department", "HR"));
+                
+                options.AddPolicy("HRManagerOnly",
+                    policy => policy
+                    .RequireClaim("Department", "HR")
+                    .RequireClaim("Manager"));
+            });
+
+            
 
             services.AddRazorPages();
         
@@ -53,6 +73,9 @@ namespace WebApp_UnderTheHood
             app.UseStaticFiles();
 
             app.UseRouting();
+
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
