@@ -42,8 +42,15 @@ namespace IdentityFramework1_FrankLiu.Pages.Account
                 //  Create the Principal
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
 
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = credential.RememberMe
+                };
 
-                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
+
+
+
+                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal, authProperties);
 
                 return RedirectToPage("/Index");
             }
@@ -61,6 +68,12 @@ namespace IdentityFramework1_FrankLiu.Pages.Account
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+
+
+
     }
 
     
