@@ -6,5 +6,28 @@
 
 <div>
     <h1>HR Manager</h1>
-    <p>...</p>
+
+
+    <table class="table table-bordered table-striped">
+        <thread>
+            <tr>
+                <td>Date</td>
+                <td>Temp C</td>
+                <td>Temp F</td>
+                <td>Summary</td>
+            </tr>
+        </thread>
+        <tbody>
+            @foreach (var item in Model.WeatherForecastItems)
+            {
+                <tr>
+                    <td>@item.Date</td>
+                    <td>@item.TemperatureC</td>
+                    <td>@item.TemperatureF</td>
+                    <td>@item.Summary</td>
+                </tr>
+                
+            }
+        </tbody>
+    </table>
 </div>
